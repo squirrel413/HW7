@@ -34,6 +34,7 @@ public class Cell implements Serializable {
     public final int row;
     public final int col;
     public Ship owner;
+    public char hitStatus = PRISTINE_WATER;
 
     public Cell(int row, int col) {
         this.row = row;

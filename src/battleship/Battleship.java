@@ -1,5 +1,7 @@
 package battleship;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 
 public class Battleship {
@@ -16,7 +18,20 @@ public class Battleship {
     static final String WHITESPACE = "\\s+";
 
     public Battleship(String filename) throws battleship.BattleshipException, IOException {
+        BufferedReader br = new BufferedReader(new FileReader(filename));
+    }
+
+    public void play(){
 
     }
 
+    public static void main(String[] args) throws IOException {
+        try {
+            Battleship game = new Battleship(args[0]);
+            game.play();
+        } catch (IOException | BattleshipException e) {
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
+    }
 }

@@ -8,6 +8,14 @@ import java.io.Serializable;
 public class Ship implements Serializable {
 
     public static final String SUNK_MESSAGE = "A battleship has been sunk!";
+    public Cell[] cells;
 
-    // TODO YOUR CODE HERE
+    public Ship(Board board, int uRow, int lCol, Orientation ort, int length) throws OverlapException,OutOfBoundsException {
+        this.cells = new Cell[length];
+    }
+
+    public void hit(){
+
+    }
+
 }
