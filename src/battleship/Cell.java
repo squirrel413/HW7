@@ -48,7 +48,7 @@ public class Cell implements Serializable {
                 throw new OverlapException("Ship already exists!");
             }
         } catch (OverlapException e) {
-            System.exit(0);
+            System.exit(1);
         }
     }
 }
