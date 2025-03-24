@@ -1,10 +1,11 @@
 package battleship;
 
+import javax.swing.*;
 import java.io.Serializable;
 
 /**
  * A single spot on the Battleship game board.
- * A cell knows if there is a ship on it, and it remember
+ * A cell knows if there is a ship on it, and it remembers
  * if it has been hit.
  */
 public class Cell implements Serializable {
@@ -30,6 +31,24 @@ public class Cell implements Serializable {
      */
     public static final char HIDDEN_SHIP_SECTION = 'S';
 
-    //TODO YOUR CODE HERE
+    public final int row;
+    public final int col;
+    public Ship owner;
 
+    public Cell(int row, int col) {
+        this.row = row;
+        this.col = col;
+    }
+
+    public void putShip(Ship ship) throws OverlapException{
+        try {
+            if (this.owner == null) {
+                this.owner = ship;
+            } else {
+                throw new OverlapException("Ship already exists!");
+            }
+        } catch (OverlapException e) {
+            System.exit(0);
+        }
+    }
 }
