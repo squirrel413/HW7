@@ -1,9 +1,6 @@
 package battleship;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class Battleship {
 
@@ -23,6 +20,7 @@ public class Battleship {
     public Battleship(String filename) throws battleship.BattleshipException, IOException {
         BufferedReader br = new BufferedReader(new FileReader(filename));
         String line = br.readLine();
+
         String[] temp = line.split(WHITESPACE);
         int rows = Integer.parseInt(temp[0]);
         int cols = Integer.parseInt(temp[1]);
@@ -39,6 +37,15 @@ public class Battleship {
             }
             line = br.readLine();
         }
+    }
+
+    private void displayCommands(){
+        StringBuilder commands = new StringBuilder();
+        commands.append(HIT).append(" - Usage: h x y. Hit a cell at x row y column\n");
+        commands.append(SAVE).append(" - Saves game state to a file\n");
+        commands.append(REVEAL).append(" - Reveal all remaining ships and ends game\n");
+        commands.append(QUIT).append(" - Quit\n");
+        System.out.println(commands.toString());
     }
 
     public void play(){
@@ -62,23 +69,37 @@ public class Battleship {
                                 ,Integer.parseInt(command.split(WHITESPACE)[2])).hit();
                         break;
                     } catch (Exception e){
-                        System.err.println(e.getMessage());
-                        System.exit(1);
+                        System.out.println("Invalid Input");
+                        break;
                     }
                 case QUIT :
                     System.exit(0);
                     break;
                 case SAVE :
-                    //serialize the stuff
+                    try{
+                        FileOutputStream file = new FileOutputStream("save.txt");
+                        ObjectOutputStream out = new ObjectOutputStream(file);
+
+                        out.writeObject(board);
+                        out.close();
+                        file.close();
+                    }
+                    catch (IOException e) {
+                        System.err.println(e.getMessage() + " we errored here bestie");}
                     break;
                 case REVEAL :
                     board.fullDisplay(System.out);
                     run = false;
                     break;
+                case "help" :
+                    displayCommands();
             }
-            run = !board.allSunk();
+            if (board.allSunk()){
+                run = false;
+                board.display(System.out);
+                System.out.println(ALL_SHIPS_SUNK);
+            }
         }
-
     }
 
     public static void main(String[] args) throws IOException {

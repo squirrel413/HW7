@@ -1,6 +1,5 @@
 package battleship;
 
-import javax.swing.*;
 import java.io.Serializable;
 
 /**
@@ -54,14 +53,28 @@ public class Cell implements Serializable {
         }
     }
 
-    public char getHitStatus() {
-        return this.hitStatus;
+    /**Return a character representing the state of this cell
+     * @return this cell's state char*/
+    public char displayChar() {return this.hitStatus;}
+
+    /**Returns a character representing the state of this cell,
+     * but PRISTINE_WATER is displayed over HIDDEN_SHIP_SECTION
+     * @return this cell's state char without HIDDEN_SHIP_SECTION*/
+    public char displayHitStatus() {
+        if (this.hitStatus != HIDDEN_SHIP_SECTION) {
+            return this.hitStatus;
+        } else {
+            return PRISTINE_WATER;
+        }
     }
 
+    /**Sets a cell's status to one of the chars in Orientation*/
     public void setHitStatus(char hitStatus) {
         this.hitStatus = hitStatus;
     }
 
+    /**Simulates hitting the cell. Will throw a CellPlayedException if
+     * the cell has already been played*/
     public void hit() throws CellPlayedException {
         try {
             if (this.hitStatus != PRISTINE_WATER && this.hitStatus != HIDDEN_SHIP_SECTION) {

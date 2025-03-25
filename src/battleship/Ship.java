@@ -54,7 +54,7 @@ public class Ship implements Serializable {
     public boolean isSunk(){
         boolean check = true;
         for (Cell cell : this.cells) {
-            if (cell.getHitStatus() != Cell.SUNK_SHIP_SECTION) {
+            if (cell.displayChar() != Cell.SUNK_SHIP_SECTION) {
                 check = false;
                 break;
             }

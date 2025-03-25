@@ -56,17 +56,16 @@ public class Board implements Serializable {
 
     public void display(PrintStream out) {
         StringBuilder sb = new StringBuilder("  ");
+        //builds the number header
         for (int i = 0; i < cols; i++) {
             sb.append(i).append(" ");
         }
         sb.append("\n");
+        //builds the actual board
         for (int i = 0; i < rows; i++) {
             sb.append(i).append(" ");
             for (int j = 0; j < cols; j++) {
-                if (board[i][j].getHitStatus() == Cell.HIDDEN_SHIP_SECTION)
-                    sb.append(Cell.PRISTINE_WATER).append(" ");
-                else
-                    sb.append(board[i][j].getHitStatus()).append(" ");
+                sb.append(board[i][j].displayHitStatus()).append(" ");
             }
             sb.append("\n");
         }
@@ -84,7 +83,7 @@ public class Board implements Serializable {
         for (int i = 0; i < rows; i++) {
             sb.append(i).append(" ");
             for (int j = 0; j < cols; j++) {
-                sb.append(board[i][j].getHitStatus()).append(" ");
+                sb.append(board[i][j].displayChar()).append(" ");
             }
             sb.append("\n");
         }
