@@ -45,11 +45,40 @@ public class Cell implements Serializable {
         try {
             if (this.owner == null) {
                 this.owner = ship;
+                this.hitStatus = HIDDEN_SHIP_SECTION;
             } else {
                 throw new OverlapException("Ship already exists!");
             }
         } catch (OverlapException e) {
             System.exit(1);
+        }
+    }
+
+    public char getHitStatus() {
+        return this.hitStatus;
+    }
+
+    public void setHitStatus(char hitStatus) {
+        this.hitStatus = hitStatus;
+    }
+
+    public void hit() throws CellPlayedException {
+        try {
+            if (this.hitStatus != PRISTINE_WATER && this.hitStatus != HIDDEN_SHIP_SECTION) {
+                throw new CellPlayedException("Cell has been played!");
+            } else {
+                switch (this.hitStatus) {
+                    case (PRISTINE_WATER) :
+                        setHitStatus(HIT_WATER);
+                        break;
+                    case (HIDDEN_SHIP_SECTION) :
+                        setHitStatus(HIT_SHIP_SECTION);
+                        break;
+                }
+                this.owner.hit();
+            }
+        } catch(CellPlayedException e) {
+            System.err.println(e.getMessage());
         }
     }
 }
