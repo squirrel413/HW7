@@ -75,10 +75,12 @@ public class Board implements Serializable {
 
     public void fullDisplay(PrintStream out) {
         StringBuilder sb = new StringBuilder("  ");
+        //builds the number header
         for (int i = 0; i < cols; i++) {
             sb.append(i).append(" ");
         }
         sb.append("\n");
+        //builds the actual board
         for (int i = 0; i < rows; i++) {
             sb.append(i).append(" ");
             for (int j = 0; j < cols; j++) {

@@ -46,6 +46,7 @@ public class Battleship {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         String command = "";
         while (run){
+            board.display(System.out);
             System.out.print(PROMPT);
             try {
                 command = input.readLine();
@@ -53,10 +54,17 @@ public class Battleship {
                 System.err.println(e.getMessage());
                 System.exit(1);
             }
-            switch (command) {
+            String temp = command.split(WHITESPACE)[0];
+            switch (temp) {
                 case HIT :
-                    //hit the given cell
-                    break;
+                    try {
+                        board.getCell(Integer.parseInt(command.split(WHITESPACE)[1])
+                                ,Integer.parseInt(command.split(WHITESPACE)[2])).hit();
+                        break;
+                    } catch (Exception e){
+                        System.err.println(e.getMessage());
+                        System.exit(1);
+                    }
                 case QUIT :
                     System.exit(0);
                     break;
@@ -68,8 +76,7 @@ public class Battleship {
                     run = false;
                     break;
             }
-            run = board.allSunk();
-            run = false;
+            run = !board.allSunk();
         }
 
     }

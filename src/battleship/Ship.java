@@ -22,7 +22,7 @@ public class Ship implements Serializable {
                 }
                 for (int i = 0; i < length; i++) {
                     board.getCell(uRow + i, lCol).putShip(this);
-                    cells[i] = board.getCell(uRow, i);
+                    cells[i] = board.getCell(uRow + i, lCol);
                 }
             } else {
                 if (lCol + length - 1 >= board.getWidth()) {
@@ -30,7 +30,7 @@ public class Ship implements Serializable {
                 }
                 for (int i = 0; i < length; i++) {
                     board.getCell(uRow, lCol + i).putShip(this);
-                    cells[i] = board.getCell(i, lCol);
+                    cells[i] = board.getCell(uRow, lCol + i);
                 }
             } //End of if statements catching exceptions
         } catch (OverlapException | OutOfBoundsException e) {
@@ -44,6 +44,9 @@ public class Ship implements Serializable {
     public void hit(){
         this.noHits++;
         if (this.noHits == this.cells.length) {
+            for (Cell cell : this.cells) {
+                cell.setHitStatus(Cell.SUNK_SHIP_SECTION);
+            }
             System.out.println(SUNK_MESSAGE);
         }
     }
@@ -51,7 +54,7 @@ public class Ship implements Serializable {
     public boolean isSunk(){
         boolean check = true;
         for (Cell cell : this.cells) {
-            if (cell.getHitStatus() != Cell.HIT_SHIP_SECTION && cell.getHitStatus() != Cell.SUNK_SHIP_SECTION) {
+            if (cell.getHitStatus() != Cell.SUNK_SHIP_SECTION) {
                 check = false;
                 break;
             }

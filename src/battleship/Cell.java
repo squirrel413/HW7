@@ -75,7 +75,9 @@ public class Cell implements Serializable {
                         setHitStatus(HIT_SHIP_SECTION);
                         break;
                 }
-                this.owner.hit();
+                if (this.owner != null) {
+                    this.owner.hit();
+                }
             }
         } catch(CellPlayedException e) {
             System.err.println(e.getMessage());
