@@ -53,6 +53,7 @@ public class Cell implements Serializable {
                 throw new BattleshipException(row, col, "OverlapException: Ships placed in overlapping positions");
             }
         } catch (BattleshipException e) {
+            System.err.println(e.getMessage());
             System.exit(1);
         }
     }
