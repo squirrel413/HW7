@@ -12,7 +12,7 @@ public class Ship implements Serializable {
     private int noHits = 0;
 
 
-    public Ship(Board board, int uRow, int lCol, Orientation ort, int length) throws OverlapException,OutOfBoundsException {
+    public Ship(Board board, int uRow, int lCol, Orientation ort, int length) throws BattleshipException{
         this.cells = new Cell[length];
         try {
             //Try to have cells get an owner and add them to the ships internal
@@ -20,7 +20,7 @@ public class Ship implements Serializable {
             if (ort == Orientation.VERTICAL) {
                 //Checks to see if a cell will be placed outside the bounds
                 if (uRow + length - 1 >= board.getHeight()) {
-                    throw new OutOfBoundsException("Ship out of bounds");
+                    throw new BattleshipException(uRow, lCol, "OutOfBoundsException: Coordinates are past board edge");
                 }
                 for (int i = 0; i < length; i++) {
                     board.getCell(uRow + i, lCol).putShip(this);
@@ -29,14 +29,14 @@ public class Ship implements Serializable {
             } else {
                 //Checks to see if a cell will be placed outside the bounds
                 if (lCol + length - 1 >= board.getWidth()) {
-                    throw new OutOfBoundsException("Ship out of bounds");
+                    throw new BattleshipException(uRow, lCol, "OutOfBoundsException: Coordinates are past board edge");
                 }
                 for (int i = 0; i < length; i++) {
                     board.getCell(uRow, lCol + i).putShip(this);
                     cells[i] = board.getCell(uRow, lCol + i);
                 }
             } //End of if statements throwing exceptions
-        } catch (OverlapException | OutOfBoundsException e) {
+        } catch (BattleshipException e) {
             System.err.println(e.getMessage());
             System.exit(1);
         } finally {

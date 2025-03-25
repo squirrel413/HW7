@@ -43,6 +43,17 @@ public class Battleship {
             System.out.print("no; will read as text setup file.\n");
             line = br.readLine();
             temp = line.split(WHITESPACE);
+            try {
+                if (temp.length != 2) {
+                    throw new battleship.BattleshipException(BAD_ARG_COUNT);
+                }
+                if (Integer.parseInt(temp[0]) > MAX_DIM && Integer.parseInt(temp[1]) > MAX_DIM) {
+                    throw new battleship.BattleshipException(DIM_TOO_BIG);
+                }
+            } catch (Exception e1) {
+                System.err.println(e1.getMessage());
+                System.exit(1);
+            }
             int rows = Integer.parseInt(temp[0]);
             int cols = Integer.parseInt(temp[1]);
             this.board = new Board(rows, cols);
@@ -50,8 +61,14 @@ public class Battleship {
             while (line != null) {
                 temp = line.split(WHITESPACE);
                 try {
-                    Ship toAdd = new Ship(this.board, Integer.parseInt(temp[0]),
-                            Integer.parseInt(temp[1]),Orientation.valueOf(temp[2]), Integer.parseInt(temp[3]));
+                    if (Integer.parseInt(temp[0]) > rows || Integer.parseInt(temp[1]) > cols) {
+                        throw new battleship.BattleshipException(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]),
+                                "OutOfBoundsException: Coordinates are past board edge");
+                    } else {
+                        Ship toAdd = new Ship(this.board, Integer.parseInt(temp[0]),
+                                Integer.parseInt(temp[1]),Orientation.valueOf(temp[2]), Integer.parseInt(temp[3]));
+                    }
+
                 } catch (Exception e2){
                     System.err.println(e2.getMessage());
                     System.exit(1);

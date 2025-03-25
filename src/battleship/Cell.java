@@ -43,16 +43,16 @@ public class Cell implements Serializable {
     }
 
     /**This method sets an unclaimed cell to have a ship on it. Throws an
-     * OverlapException if cell is already claimed*/
-    public void putShip(Ship ship) throws OverlapException{
+     * BattleshipException if cell is already claimed*/
+    public void putShip(Ship ship) throws BattleshipException{
         try {
             if (this.owner == null) {
                 this.owner = ship;
                 this.hitStatus = HIDDEN_SHIP_SECTION;
             } else {
-                throw new OverlapException("Ship already exists!");
+                throw new BattleshipException(row, col, "OverlapException: Ships placed in overlapping positions");
             }
-        } catch (OverlapException e) {
+        } catch (BattleshipException e) {
             System.exit(1);
         }
     }
@@ -79,10 +79,10 @@ public class Cell implements Serializable {
 
     /**Simulates hitting the cell. Will throw a CellPlayedException if
      * the cell has already been played*/
-    public void hit() throws CellPlayedException {
+    public void hit() throws BattleshipException {
         try {
             if (this.hitStatus != PRISTINE_WATER && this.hitStatus != HIDDEN_SHIP_SECTION) {
-                throw new CellPlayedException("Cell has been played!");
+                throw new BattleshipException(this.row, this.col, "CellPlayedException: Cell has been played!");
             } else {
                 switch (this.hitStatus) {
                     case (PRISTINE_WATER) :
@@ -96,7 +96,7 @@ public class Cell implements Serializable {
                     this.owner.hit();
                 }
             }
-        } catch(CellPlayedException e) {
+        } catch(BattleshipException e) {
             System.err.println(e.getMessage());
         }
     }
