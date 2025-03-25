@@ -4,6 +4,12 @@ import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * The game board for the battleship simulation.
+ * It also holds reference to ships for checking sunk status.
+ * @author Nicholas Tibbels nst2038@rit.edu
+ * @author Samuel Whitney shw9601@rit.edu
+ */
 public class Board implements Serializable {
 
     private int rows;
@@ -40,7 +46,7 @@ public class Board implements Serializable {
         this.ships.add(ship);
     }
 
-    /**Method creates a boolean check variable that starts as true and becomes
+    /**This method creates a boolean check variable that starts as true and becomes
      * false if any ships in its internal ships ArrayList have not been sunk.
      * @return check*/
     public boolean allSunk(){
@@ -54,6 +60,8 @@ public class Board implements Serializable {
         return check;
     }
 
+    /**This method builds a string to display the current state of the board
+     * with hidden ship sections*/
     public void display(PrintStream out) {
         StringBuilder sb = new StringBuilder("  ");
         //builds the number header
@@ -72,6 +80,8 @@ public class Board implements Serializable {
         System.out.println(sb);
     }
 
+    /**This method builds a string to display the current state of the board
+     * without hidden ship sections*/
     public void fullDisplay(PrintStream out) {
         StringBuilder sb = new StringBuilder("  ");
         //builds the number header
@@ -89,8 +99,6 @@ public class Board implements Serializable {
         }
         System.out.println(sb);
     }
-
-
 
     public String toString() {
         return "";

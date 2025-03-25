@@ -6,6 +6,8 @@ import java.io.Serializable;
  * A single spot on the Battleship game board.
  * A cell knows if there is a ship on it, and it remembers
  * if it has been hit.
+ * @author Nicholas Tibbels nst2038@rit.edu
+ * @author Samuel Whitney shw9601@rit.edu
  */
 public class Cell implements Serializable {
 
@@ -40,6 +42,8 @@ public class Cell implements Serializable {
         this.col = col;
     }
 
+    /**This method sets an unclaimed cell to have a ship on it. Throws an
+     * OverlapException if cell is already claimed*/
     public void putShip(Ship ship) throws OverlapException{
         try {
             if (this.owner == null) {

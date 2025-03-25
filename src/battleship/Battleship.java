@@ -2,6 +2,13 @@ package battleship;
 
 import java.io.*;
 
+/**
+ * A game of one-sided battleship. This class takes in a file to set up a
+ * game board of Battleship. It prompts the user for input of playing battleship
+ * until all ships are sunk or the user chooses to exit.
+ * @author Nicholas Tibbels nst2038@rit.edu
+ * @author Samuel Whitney shw9601@rit.edu
+ */
 public class Battleship {
 
     static final String ALL_SHIPS_SUNK = "All ships sunk!";
@@ -17,28 +24,44 @@ public class Battleship {
 
     public Board board;
 
+    /**This method reads in a file to set up the game, supports game save files and set up files*/
     public Battleship(String filename) throws battleship.BattleshipException, IOException {
         BufferedReader br = new BufferedReader(new FileReader(filename));
-        String line = br.readLine();
+        String line = null;
+        String[] temp = null;
+        //first try loading the file as a board object
+        try {
+            System.out.print("Checking if data " + filename + " is a saved game file..." );
+            FileInputStream fis = new FileInputStream(filename);
+            ObjectInputStream ois = new ObjectInputStream(fis);
 
-        String[] temp = line.split(WHITESPACE);
-        int rows = Integer.parseInt(temp[0]);
-        int cols = Integer.parseInt(temp[1]);
-        this.board = new Board(rows, cols);
-        line = br.readLine();
-        while (line != null) {
-            temp = line.split(WHITESPACE);
-            try {
-                Ship toAdd = new Ship(this.board, Integer.parseInt(temp[0]),
-                        Integer.parseInt(temp[1]),Orientation.valueOf(temp[2]), Integer.parseInt(temp[3]));
-            } catch (Exception e){
-                System.err.println(e.getMessage());
-                System.exit(1);
-            }
+            this.board = (Board) ois.readObject();
+            ois.close();
+            fis.close();
+        //otherwise the file must be a set-up file and will read here
+        } catch (Exception e) {
+            System.out.print("no; will read as text setup file.\n");
             line = br.readLine();
+            temp = line.split(WHITESPACE);
+            int rows = Integer.parseInt(temp[0]);
+            int cols = Integer.parseInt(temp[1]);
+            this.board = new Board(rows, cols);
+            line = br.readLine();
+            while (line != null) {
+                temp = line.split(WHITESPACE);
+                try {
+                    Ship toAdd = new Ship(this.board, Integer.parseInt(temp[0]),
+                            Integer.parseInt(temp[1]),Orientation.valueOf(temp[2]), Integer.parseInt(temp[3]));
+                } catch (Exception e2){
+                    System.err.println(e2.getMessage());
+                    System.exit(1);
+                }
+                line = br.readLine();
+            }
         }
     }
 
+    /**This is a helper method to display the commands and their functions.*/
     private void displayCommands(){
         StringBuilder commands = new StringBuilder();
         commands.append(HIT).append(" - Usage: h x y. Hit a cell at x row y column\n");
@@ -48,6 +71,7 @@ public class Battleship {
         System.out.println(commands.toString());
     }
 
+    /**Handles the main play loop of Battleship and prompts user for input*/
     public void play(){
         boolean run = true;
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
@@ -77,16 +101,17 @@ public class Battleship {
                     break;
                 case SAVE :
                     try{
-                        FileOutputStream file = new FileOutputStream("save.txt");
-                        ObjectOutputStream out = new ObjectOutputStream(file);
+                        String name = command.split(WHITESPACE)[1];
+                        FileOutputStream fos = new FileOutputStream(name);
+                        ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-                        out.writeObject(board);
-                        out.close();
-                        file.close();
+                        oos.writeObject(board);
+                        oos.close();
+                        fos.close();
+                        run = false;
+                        break;
                     }
-                    catch (IOException e) {
-                        System.err.println(e.getMessage() + " we errored here bestie");}
-                    break;
+                    catch (IOException e) {System.err.println(e.getMessage());}
                 case REVEAL :
                     board.fullDisplay(System.out);
                     run = false;
@@ -100,6 +125,7 @@ public class Battleship {
                 System.out.println(ALL_SHIPS_SUNK);
             }
         }
+        System.out.println("Thanks for playing!");
     }
 
     public static void main(String[] args) throws IOException {
