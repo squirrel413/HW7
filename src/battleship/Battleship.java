@@ -38,6 +38,7 @@ public class Battleship {
             this.board = (Board) ois.readObject();
             ois.close();
             fis.close();
+            System.out.println("success!");
         //otherwise the file must be a set-up file and will read here
         } catch (Exception e) {
             System.out.print("no; will read as text setup file.\n");
@@ -147,6 +148,10 @@ public class Battleship {
 
     public static void main(String[] args) throws IOException {
         try {
+            if (args.length == 0) {
+                System.out.println("Usage: java Battleship <filename>");
+                System.exit(1);
+            }
             Battleship game = new Battleship(args[0]);
             game.play();
         } catch (IOException | BattleshipException e) {
