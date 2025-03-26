@@ -101,6 +101,7 @@ public class Board implements Serializable {
     }
 
     public String toString() {
-        return "";
+        return "rows=" + rows + ", cols=" + cols
+                + ", no of ships=" + ships.size();
     }
 }
