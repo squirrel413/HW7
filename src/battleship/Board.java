@@ -30,7 +30,16 @@ public class Board implements Serializable {
 
     /**This method returns the cell given by its position on the board
      * @return the specified cell*/
-    public Cell getCell(int row, int col){return board[row][col];}
+    public Cell getCell(int row, int col){
+        try {
+            if (row < 0 || row >= rows || col < 0 || col >= cols) {
+                throw new OutOfBoundsException(row,col);
+            }
+        } catch (OutOfBoundsException e) {
+            System.err.println(e);
+        }
+        return board[row][col];
+    }
 
     /**This method returns the amount of rows in this board.
      * @return int rows*/

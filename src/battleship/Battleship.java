@@ -63,8 +63,7 @@ public class Battleship {
                 temp = line.split(WHITESPACE);
                 try {
                     if (Integer.parseInt(temp[0]) > rows || Integer.parseInt(temp[1]) > cols) {
-                        throw new battleship.BattleshipException(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]),
-                                "OutOfBoundsException: Coordinates are past board edge");
+                        throw new battleship.OutOfBoundsException(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]));
                     } else {
                         Ship toAdd = new Ship(this.board, Integer.parseInt(temp[0]),
                                 Integer.parseInt(temp[1]),Orientation.valueOf(temp[2]), Integer.parseInt(temp[3]));
