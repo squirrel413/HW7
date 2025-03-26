@@ -1,5 +1,11 @@
 package battleship;
-
+/**
+ * An exception for when things go wrong in battleship. Displays
+ * where the error takes place if given.
+ * @author Nicholas Tibbels nst2038@rit.edu
+ * @author Samuel Whitney shw9601@rit.edu
+ * @author CS RIT
+ * */
 public class BattleshipException extends Exception {
 
     public static final int UNSET = -1;

@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 /**
  * A single ship in a Battleship game
+ * @author Nicholas Tibbels nst2038@rit.edu
+ * @author Samuel Whitney shw9601@rit.edu
  */
 public class Ship implements Serializable {
 
